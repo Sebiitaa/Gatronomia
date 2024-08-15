@@ -1,9 +1,5 @@
-// Configuración de Supabase
-const supabaseUrl = 'https://ukuvffbluwfmoqxbjrms.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVrdXZmZmJsdXdmbW9xeGJqcm1zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjM3NTIzNjAsImV4cCI6MjAzOTMyODM2MH0.FNARtf3lSBZ0kdgg0zwGgoXxYjTaf9yPrLPQP1opjAo';
-const supabase = Supabase.createClient(supabaseUrl, supabaseKey);
+import { supabase } from './supabase-config.js';
 
-// Manejador del formulario
 document.getElementById('post-form').addEventListener('submit', async (event) => {
     event.preventDefault();
 
@@ -11,45 +7,35 @@ document.getElementById('post-form').addEventListener('submit', async (event) =>
     const description = document.getElementById('description').value;
     const image = document.getElementById('image').files[0];
 
-    if (!image) {
-        alert('Por favor, selecciona una imagen.');
+    if (!title || !description || !image) {
+        alert('Por favor, completa todos los campos.');
         return;
     }
 
-    // Subir la imagen a Supabase Storage
-    const { data: imageData, error: imageError } = await supabase
-        .storage
+    // Subir imagen a Supabase Storage
+    const { data: uploadData, error: uploadError } = await supabase.storage
         .from('images')
         .upload(`public/${image.name}`, image);
 
-    if (imageError) {
-        console.error('Error al subir la imagen:', imageError);
+    if (uploadError) {
+        console.error('Error al subir la imagen:', uploadError);
         return;
     }
 
-    // Obtener la URL de la imagen subida
-    const { publicURL, error: urlError } = supabase
-        .storage
-        .from('images')
-        .getPublicUrl(`public/${image.name}`);
+    const imageUrl = uploadData.path;
 
-    if (urlError) {
-        console.error('Error al obtener la URL de la imagen:', urlError);
-        return;
-    }
-
-    // Insertar los datos del hito en la base de datos
-    const { error: insertError } = await supabase
+    // Insertar datos en la tabla posts
+    const { data, error } = await supabase
         .from('posts')
-        .insert([{ title, description, imageUrl: publicURL }]);
+        .insert([{ title, description, imageUrl }]);
 
-    if (insertError) {
-        console.error('Error al insertar el hito:', insertError);
-        return;
+    if (error) {
+        console.error('Error al insertar el post:', error);
+    } else {
+        alert('Hito Histórico publicado exitosamente.');
+        window.location.href = 'feed.html';
     }
-
-    alert('¡Hito publicado con éxito!');
-    document.getElementById('post-form').reset();
 });
+
 
 
