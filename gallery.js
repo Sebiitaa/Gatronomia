@@ -17,7 +17,7 @@ document.getElementById('post-form').addEventListener('submit', async (e) => {
         return;
     }
 
-    const imageUrl = `https://your-project-id.supabase.co/storage/v1/object/public/images/${imageData.path}`;
+    const imageUrl = `${supabase.storageUrl}/images/${imageData.path}`;
 
     // Guardar datos en la base de datos
     const { error: insertError } = await supabase
