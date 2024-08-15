@@ -1,49 +1,43 @@
-// feed.js
-import { supabase } from './supabase-config.js'
+// Configuración de Supabase
+const supabaseUrl = 'https://ukuvffbluwfmoqxbjrms.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVrdXZmZmJsdXdmbW9xeGJqcm1zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjM3NTIzNjAsImV4cCI6MjAzOTMyODM2MH0.FNARtf3lSBZ0kdgg0zwGgoXxYjTaf9yPrLPQP1opjAo';
+const supabase = Supabase.createClient(supabaseUrl, supabaseKey);
 
-const feedContainer = document.getElementById('feed')
-
+// Función para cargar el feed de hitos históricos
 async function loadFeed() {
-    try {
-        const { data: posts, error } = await supabase
-            .from('posts')
-            .select('*')
+    const { data: posts, error } = await supabase
+        .from('posts')
+        .select('*');
 
-        if (error) {
-            console.error('Error al cargar el feed:', error)
-            return
-        }
-
-        feedContainer.innerHTML = '' // Limpiar el contenedor
-
-        posts.forEach(post => {
-            const item = document.createElement('div')
-            item.classList.add('item')
-
-            // Crear y añadir la imagen
-            const img = document.createElement('img')
-            img.src = post.image_url
-            item.appendChild(img)
-
-            // Crear y añadir el título
-            const titleElement = document.createElement('div')
-            titleElement.classList.add('title')
-            titleElement.textContent = post.title
-            item.appendChild(titleElement)
-
-            // Crear y añadir la descripción
-            const descriptionElement = document.createElement('div')
-            descriptionElement.classList.add('description')
-            descriptionElement.textContent = post.description
-            item.appendChild(descriptionElement)
-
-            // Añadir el item al contenedor del feed
-            feedContainer.appendChild(item)
-        })
-    } catch (error) {
-        console.error('Error al cargar el feed:', error)
+    if (error) {
+        console.error('Error al cargar los hitos históricos:', error);
+        return;
     }
+
+    const feedContainer = document.getElementById('feed');
+
+    posts.forEach(post => {
+        const postElement = document.createElement('div');
+        postElement.classList.add('post');
+
+        const imageElement = document.createElement('img');
+        imageElement.src = post.imageUrl;
+        imageElement.alt = post.title;
+
+        const titleElement = document.createElement('h2');
+        titleElement.textContent = post.title;
+
+        const descriptionElement = document.createElement('p');
+        descriptionElement.textContent = post.description;
+
+        postElement.appendChild(imageElement);
+        postElement.appendChild(titleElement);
+        postElement.appendChild(descriptionElement);
+
+        feedContainer.appendChild(postElement);
+    });
 }
 
-loadFeed()
+// Cargar el feed al cargar la página
+document.addEventListener('DOMContentLoaded', loadFeed);
 
