@@ -1,0 +1,106 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: url('fondo.jpg') no-repeat center center fixed; /* Fondo con imagen */
+    background-size: cover;
+    color: #333;
+    min-height: 100vh; /* Asegura que el cuerpo tenga al menos la altura de la ventana del navegador */
+    display: flex;
+    flex-direction: column; /* Alinea los elementos en columna */
+}
+
+/* Estilos del encabezado */
+header {
+    background-color: rgba(52, 152, 219, 0.8); /* Color azul con opacidad */
+    color: white;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: fixed; /* Fijo en la parte superior */
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+header h1 {
+    margin: 0;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    display: flex; /* Flex para alinear las opciones en una fila */
+    justify-content: center; /* Centra horizontalmente las opciones */
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav ul li a:hover {
+    text-decoration: underline;
+}
+
+/* Estilos del contenido principal */
+main {
+    display: flex;
+    flex-direction: column; /* Alinea los elementos en columna */
+    align-items: center; /* Centra horizontalmente el contenido */
+    justify-content: center; /* Centra verticalmente el contenido */
+    padding: 20px;
+    margin-top: 200px; /* Ajusta el margen superior para evitar que el contenido se solape con el header fijo */
+    margin-bottom: 60px; /* Ajusta el margen inferior para el pie de página */
+}
+
+.content {
+    width: 80%; /* Ocupa el 80% del ancho disponible */
+    max-width: 700px; /* Limita el ancho máximo del contenedor principal */
+    box-sizing: border-box; /* Incluye el padding y border en el width */
+}
+
+.option {
+    background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco con mayor transparencia */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px; /* Espacio entre las opciones */
+    text-align: center; /* Centra el contenido */
+}
+
+.option h2 {
+    margin-top: 0;
+    color: #3498db;
+}
+
+.option a {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.option a:hover {
+    text-decoration: underline;
+}
+
+/* Estilos del pie de página */
+footer {
+    background-color: rgba(52, 152, 219, 0.8); /* Color azul con opacidad */
+    color: white;
+    text-align: center;
+    padding: 10px; /* Reducción del padding */
+    width: 100%;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Sombra superior para separación */
+    position: relative; /* Posicionamiento relativo */
+    bottom: 0;
+    margin-top: auto; /* Empuja el pie de página hacia abajo */
+}

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publicar Nuevo Hito</title>
+    <link rel="stylesheet" href="gallery.css">
+</head>
+<body>
+    <header>
+        <h1>Publicar Nuevo Hito</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="feed.html">Ver Feed</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <div class="form-container">
+                <h2>Publicar Nuevo Hito</h2>
+                <form id="upload-form" action="feed.html" method="post" enctype="multipart/form-data">
+                    <label for="title">Título:</label>
+                    <input type="text" id="title" name="title" required>
+                    
+                    <label for="image">Imagen:</label>
+                    <input type="file" id="image" name="image" accept="image/*" required>
+                    
+                    <label for="description">Descripción:</label>
+                    <textarea id="description" name="description" rows="4" required></textarea>
+                    
+                    <button type="submit">Publicar</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Tu Portafolio</p>
+    </footer>
+</body>
+</html>
+
+
