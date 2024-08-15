@@ -18,9 +18,13 @@ async function loadFeed() {
 
             // Crear y añadir la imagen
             const img = document.createElement('img');
-            const imagePath = 'images/' + data.imageUrl.split('/').pop();
-            img.src = await getDownloadURL(ref(storage, imagePath));
-            item.appendChild(img);
+            const imageRef = ref(storage, 'images/' + data.imageUrl.split('/').pop()); // Ajustar la ruta aquí si es necesario
+            try {
+                img.src = await getDownloadURL(imageRef);
+                item.appendChild(img);
+            } catch (error) {
+                console.error('Error al obtener la URL de la imagen:', error);
+            }
 
             // Crear y añadir el título
             const titleElement = document.createElement('div');
