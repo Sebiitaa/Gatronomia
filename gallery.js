@@ -1,4 +1,8 @@
-// Usa el objeto global `supabase` proporcionado por el CDN
+// Crear cliente Supabase usando el CDN
+const supabaseUrl = 'https://ukuvffbluwfmoqxbjrms.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVrdXZmZmJsdXdmbW9xeGJqcm1zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjM3NTIzNjAsImV4cCI6MjAzOTMyODM2MH0.FNARtf3lSBZ0kdgg0zwGgoXxYjTaf9yPrLPQP1opjAo'; // Reemplaza esto con tu API Key real
+const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
 document.getElementById('post-form').addEventListener('submit', async (event) => {
     event.preventDefault();
 
@@ -35,7 +39,3 @@ document.getElementById('post-form').addEventListener('submit', async (event) =>
         window.location.href = 'feed.html';
     }
 });
-
-
-
-
