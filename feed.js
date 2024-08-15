@@ -1,6 +1,5 @@
-import { db, storage } from './firebase-config.js';
+import { db } from './firebase-config.js';
 import { collection, getDocs } from 'firebase/firestore';
-import { ref, getDownloadURL } from 'firebase/storage';
 
 const feedContainer = document.getElementById('feed');
 
@@ -10,7 +9,7 @@ async function loadFeed() {
 
         feedContainer.innerHTML = ''; // Limpiar el contenedor
 
-        querySnapshot.forEach(async (doc) => {
+        querySnapshot.forEach((doc) => {
             const data = doc.data();
 
             const item = document.createElement('div');
@@ -18,13 +17,13 @@ async function loadFeed() {
 
             // Crear y añadir la imagen
             const img = document.createElement('img');
-            const imageRef = ref(storage, 'images/' + data.imageUrl.split('/').pop()); // Ajustar la ruta aquí si es necesario
-            try {
-                img.src = await getDownloadURL(imageRef);
-                item.appendChild(img);
-            } catch (error) {
-                console.error('Error al obtener la URL de la imagen:', error);
-            }
+            img.src = data.imageUrl; // Usar la URL directamente
+            img.onload = () => feedContainer.appendChild(item); // Añadir al feed después de cargar la imagen
+            img.onerror = () => {
+                console.error('Error al cargar la imagen:', data.imageUrl);
+                item.innerHTML = 'Error al cargar imagen'; // Mensaje de error
+            };
+            item.appendChild(img);
 
             // Crear y añadir el título
             const titleElement = document.createElement('div');
