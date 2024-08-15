@@ -42,7 +42,7 @@ document.getElementById('post-form').addEventListener('submit', async (event) =>
     // Insertar datos en la base de datos
     const { error: dbError } = await supabase
         .from('posts')
-        .insert([{ title, description, image_url: publicURL }])
+        .insert([{ title, description, imageUrl: publicURL }])
 
     if (dbError) {
         console.error('Error al guardar los datos:', dbError)
