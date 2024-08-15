@@ -1,18 +1,13 @@
-import { supabase } from './supabase.js';
-
-const feedContainer = document.getElementById('feed');
+const cloudName = 'tu_cloud_name';  // Reemplaza con tu cloud name
 
 async function loadFeed() {
     try {
-        const { data: posts, error } = await supabase
-            .from('posts')
-            .select('*');
+        // Aquí deberías obtener las URLs de las imágenes desde tu base de datos, en este ejemplo se usa una lista fija
+        const posts = [
+            { title: 'Título Ejemplo', description: 'Descripción Ejemplo', imageUrl: 'https://res.cloudinary.com/tu_cloud_name/image/upload/v1234567890/imagen.jpg' }
+        ];
 
-        if (error) {
-            console.error('Error al cargar el feed:', error);
-            return;
-        }
-
+        const feedContainer = document.getElementById('feed');
         feedContainer.innerHTML = ''; // Limpiar el contenedor
 
         posts.forEach(post => {
@@ -21,7 +16,7 @@ async function loadFeed() {
 
             // Crear y añadir la imagen
             const img = document.createElement('img');
-            img.src = `https://ukuvffbluwfmoqxbjrms.supabase.co/storage/v1/object/public/images/${post.imageUrl}`;
+            img.src = post.imageUrl;
             item.appendChild(img);
 
             // Crear y añadir el título
@@ -45,6 +40,8 @@ async function loadFeed() {
 }
 
 loadFeed();
+
+
 
 
 

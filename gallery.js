@@ -1,8 +1,5 @@
-// Asegúrate de que este código esté al principio del archivo
-const { createClient } = supabase;
-const supabaseUrl = 'https://ukuvffbluwfmoqxbjrms.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVrdXZmZmJsdXdmbW9xeGJqcm1zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjM3NTIzNjAsImV4cCI6MjAzOTMyODM2MH0.FNARtf3lSBZ0kdgg0zwGgoXxYjTaf9yPrLPQP1opjAo';
-const supabase = createClient(supabaseUrl, supabaseKey);
+const cloudName = 'tu_cloud_name';  // Reemplaza con tu cloud name
+const uploadPreset = 'Imagenes';    // El nombre del upload preset
 
 document.getElementById('post-form').addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -16,28 +13,31 @@ document.getElementById('post-form').addEventListener('submit', async (event) =>
         return;
     }
 
-    // Subir imagen a Supabase Storage
-    const { data: uploadData, error: uploadError } = await supabase.storage
-        .from('images')
-        .upload(`public/${image.name}`, image);
+    const formData = new FormData();
+    formData.append('file', image);
+    formData.append('upload_preset', uploadPreset);
 
-    if (uploadError) {
-        console.error('Error al subir la imagen:', uploadError);
-        return;
-    }
+    try {
+        const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+            method: 'POST',
+            body: formData
+        });
 
-    const imageUrl = uploadData.path;
+        const data = await response.json();
 
-    // Insertar datos en la tabla posts
-    const { data, error } = await supabase
-        .from('posts')
-        .insert([{ title, description, imageUrl }]);
+        if (response.ok) {
+            const imageUrl = data.secure_url;
 
-    if (error) {
-        console.error('Error al insertar el post:', error);
-    } else {
-        alert('Hito Histórico publicado exitosamente.');
-        window.location.href = 'feed.html';
+            // Aquí puedes almacenar la URL de la imagen en tu base de datos si es necesario
+            console.log('Imagen subida exitosamente:', imageUrl);
+            alert('Hito Histórico publicado exitosamente.');
+            window.location.href = 'feed.html';
+        } else {
+            console.error('Error al subir la imagen:', data);
+        }
+    } catch (error) {
+        console.error('Error en la solicitud de carga:', error);
     }
 });
+
 

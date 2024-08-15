@@ -1,5 +1,5 @@
 {
   "dependencies": {
-    "@supabase/supabase-js": "^2.45.1"
+    "cloudinary-core": "^2.13.1"
   }
 }
