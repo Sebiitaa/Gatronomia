@@ -1,3 +1,4 @@
+// gallery.js
 import { supabase } from './supabase-config.js';
 
 document.getElementById('post-form').addEventListener('submit', async (event) => {
@@ -36,6 +37,7 @@ document.getElementById('post-form').addEventListener('submit', async (event) =>
         window.location.href = 'feed.html';
     }
 });
+
 
 
 

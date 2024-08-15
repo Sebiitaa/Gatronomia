@@ -1,3 +1,4 @@
+// feed.js
 import { supabase } from './supabase-config.js';
 
 const feedContainer = document.getElementById('feed');
@@ -45,3 +46,4 @@ async function loadFeed() {
 }
 
 loadFeed();
+
