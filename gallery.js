@@ -1,62 +1,44 @@
-// Importar las funciones necesarias desde el archivo de configuración de Firebase
-import { storage, db, ref, uploadBytes, getDownloadURL, collection, addDoc } from './firebase-config.js';
+import { db, storage } from './firebase-config.js';
+import { collection, addDoc } from 'firebase/firestore';
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
-document.getElementById('hito-form').addEventListener('submit', async function(event) {
+const form = document.getElementById('uploadForm');
+const titleInput = document.getElementById('title');
+const descriptionInput = document.getElementById('description');
+const fileInput = document.getElementById('file');
+
+form.addEventListener('submit', async (event) => {
     event.preventDefault();
 
-    const title = document.getElementById('title').value;
-    const image = document.getElementById('image').files[0];
-    const description = document.getElementById('description').value;
+    const title = titleInput.value;
+    const description = descriptionInput.value;
+    const file = fileInput.files[0];
 
-    if (title && image && description) {
-        try {
-            // Crear una referencia al archivo en Firebase Storage
-            const storageRef = ref(storage, 'images/' + image.name);
+    if (file) {
+        const storageRef = ref(storage, 'images/' + file.name);
+        const uploadTask = uploadBytesResumable(storageRef, file);
 
-            // Subir el archivo a Firebase Storage
-            await uploadBytes(storageRef, image);
-
-            // Obtener la URL de descarga del archivo
-            const imageUrl = await getDownloadURL(storageRef);
-
-            // Guardar la información en Firestore
-            await addDoc(collection(db, 'posts'), {
-                title: title,
-                description: description,
-                imageUrl: imageUrl,
-                createdAt: new Date()
-            });
-
-            // Actualizar la galería local (opcional, ya que la galería en el feed se actualizará al cargar la página)
-            const gallery = document.getElementById('gallery');
-
-            const item = document.createElement('div');
-            item.classList.add('item');
-
-            const img = document.createElement('img');
-            img.src = imageUrl; // Usar la URL de Firebase Storage en lugar de la URL local
-            item.appendChild(img);
-
-            const titleElement = document.createElement('div');
-            titleElement.classList.add('title');
-            titleElement.textContent = title;
-            item.appendChild(titleElement);
-
-            const descriptionElement = document.createElement('div');
-            descriptionElement.classList.add('description');
-            descriptionElement.textContent = description;
-            item.appendChild(descriptionElement);
-
-            gallery.appendChild(item);
-
-            // Limpiar el formulario
-            document.getElementById('hito-form').reset();
-
-            alert('Hito publicado con éxito');
-        } catch (error) {
-            console.error('Error al publicar el hito:', error);
-            alert('Hubo un error al publicar el hito. Inténtalo de nuevo.');
-        }
+        uploadTask.on('state_changed',
+            null,
+            (error) => {
+                console.error('Error al subir la imagen:', error);
+            },
+            async () => {
+                try {
+                    const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+                    await addDoc(collection(db, 'posts'), {
+                        title: title,
+                        description: description,
+                        imageUrl: downloadURL,
+                        timestamp: new Date()
+                    });
+                    alert('Hito publicado con éxito!');
+                    form.reset();
+                } catch (error) {
+                    console.error('Error al guardar la información en Firestore:', error);
+                }
+            }
+        );
     }
 });
 
