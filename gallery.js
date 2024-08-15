@@ -1,4 +1,4 @@
-const cloudName = 'tu_cloud_name';  // Reemplaza con tu cloud name
+const cloudName = 'tdqgzxa6uk';  // Reemplaza con tu cloud name
 const uploadPreset = 'Imagenes';    // El nombre del upload preset
 
 document.getElementById('post-form').addEventListener('submit', async (event) => {
