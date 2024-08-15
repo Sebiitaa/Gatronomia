@@ -1,62 +1,34 @@
-// Importar las funciones necesarias desde el archivo de configuración de Firebase
-import { storage, db, ref, uploadBytes, getDownloadURL, collection, addDoc } from './firebase-config.js';
+import { supabase } from './supabase-config.js';
 
-document.getElementById('hito-form').addEventListener('submit', async function(event) {
-    event.preventDefault();
+document.getElementById('post-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
 
     const title = document.getElementById('title').value;
-    const image = document.getElementById('image').files[0];
     const description = document.getElementById('description').value;
+    const image = document.getElementById('image').files[0];
 
-    if (title && image && description) {
-        try {
-            // Crear una referencia al archivo en Firebase Storage
-            const storageRef = ref(storage, 'images/' + image.name);
+    // Subir imagen
+    const { data: imageData, error: uploadError } = await supabase.storage
+        .from('images')
+        .upload(`public/${Date.now()}_${image.name}`, image);
 
-            // Subir el archivo a Firebase Storage
-            await uploadBytes(storageRef, image);
+    if (uploadError) {
+        console.error('Error al subir la imagen:', uploadError);
+        return;
+    }
 
-            // Obtener la URL de descarga del archivo
-            const imageUrl = await getDownloadURL(storageRef);
+    const imageUrl = `https://your-project-id.supabase.co/storage/v1/object/public/images/${imageData.path}`;
 
-            // Guardar la información en Firestore
-            await addDoc(collection(db, 'posts'), {
-                title: title,
-                description: description,
-                imageUrl: imageUrl,
-                createdAt: new Date()
-            });
+    // Guardar datos en la base de datos
+    const { error: insertError } = await supabase
+        .from('posts')
+        .insert([{ title, description, imageUrl }]);
 
-            // Actualizar la galería local (opcional, ya que la galería en el feed se actualizará al cargar la página)
-            const gallery = document.getElementById('gallery');
-
-            const item = document.createElement('div');
-            item.classList.add('item');
-
-            const img = document.createElement('img');
-            img.src = imageUrl; // Usar la URL de Firebase Storage en lugar de la URL local
-            item.appendChild(img);
-
-            const titleElement = document.createElement('div');
-            titleElement.classList.add('title');
-            titleElement.textContent = title;
-            item.appendChild(titleElement);
-
-            const descriptionElement = document.createElement('div');
-            descriptionElement.classList.add('description');
-            descriptionElement.textContent = description;
-            item.appendChild(descriptionElement);
-
-            gallery.appendChild(item);
-
-            // Limpiar el formulario
-            document.getElementById('hito-form').reset();
-
-            alert('Hito publicado con éxito');
-        } catch (error) {
-            console.error('Error al publicar el hito:', error);
-            alert('Hubo un error al publicar el hito. Inténtalo de nuevo.');
-        }
+    if (insertError) {
+        console.error('Error al guardar los datos:', insertError);
+    } else {
+        alert('Hito publicado con éxito');
+        document.getElementById('post-form').reset();
     }
 });
 

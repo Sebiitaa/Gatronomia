@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Publicar Nuevo Hito</title>
+    <title>Publicar Hito Histórico</title>
     <link rel="stylesheet" href="gallery.css">
 </head>
 <body>
     <header>
-        <h1>Publicar Nuevo Hito</h1>
+        <h1>Publicar Nuevo Hito Histórico</h1>
         <nav>
             <ul>
                 <li><a href="index.html">Inicio</a></li>
@@ -18,32 +18,24 @@
     </header>
 
     <main>
-        <section>
-            <div class="form-container">
-                <h2>Publicar Nuevo Hito</h2>
-                <form id="upload-form">
-                    <label for="title">Título:</label>
-                    <input type="text" id="title" name="title" required>
-                    
-                    <label for="image">Imagen:</label>
-                    <input type="file" id="image" name="image" accept="image/*" required>
-                    
-                    <label for="description">Descripción:</label>
-                    <textarea id="description" name="description" rows="4" required></textarea>
-                    
-                    <button type="submit">Publicar</button>
-                </form>
-            </div>
-        </section>
+        <form id="post-form">
+            <label for="title">Título:</label>
+            <input type="text" id="title" name="title" required>
+            
+            <label for="description">Descripción:</label>
+            <textarea id="description" name="description" required></textarea>
+            
+            <label for="image">Imagen:</label>
+            <input type="file" id="image" name="image" accept="image/*" required>
+            
+            <button type="submit">Publicar</button>
+        </form>
     </main>
 
     <footer>
         <p>&copy; 2024 Tu Portafolio</p>
     </footer>
 
-    <script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-storage.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-firestore.js"></script>
     <script src="gallery.js"></script>
 </body>
 </html>
