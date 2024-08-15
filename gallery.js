@@ -1,6 +1,4 @@
-// gallery.js
-import { supabase } from './supabase-config.js';
-
+// Usa el objeto global `supabase` proporcionado por el CDN
 document.getElementById('post-form').addEventListener('submit', async (event) => {
     event.preventDefault();
 

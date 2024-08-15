@@ -1,6 +1,4 @@
-// feed.js
-import { supabase } from './supabase-config.js';
-
+// Usa el objeto global `supabase` proporcionado por el CDN
 const feedContainer = document.getElementById('feed');
 
 async function loadFeed() {
@@ -46,4 +44,5 @@ async function loadFeed() {
 }
 
 loadFeed();
+
 
