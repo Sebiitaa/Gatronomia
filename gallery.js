@@ -1,53 +1,35 @@
-const cloudName = 'dqgzxa6uk'; // Asegúrate de que este es tu Cloud Name real
-const uploadPreset = 'imagenes'; // Asegúrate de que este es el nombre correcto de tu upload preset
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('upload-form');
+    const fileInput = document.getElementById('file-input');
 
-document.getElementById('post-form').addEventListener('submit', async (event) => {
-    event.preventDefault();
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        
+        const file = fileInput.files[0];
+        const uploadPreset = 'Imagenes';  // Nombre del upload preset que creaste
 
-    const title = document.getElementById('title').value;
-    const description = document.getElementById('description').value;
-    const image = document.getElementById('image').files[0];
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', uploadPreset);
 
-    if (!title || !description || !image) {
-        alert('Por favor, completa todos los campos.');
-        return;
-    }
+        try {
+            const response = await fetch('https://api.cloudinary.com/v1_1/dqgzxa6uk/image/upload', {
+                method: 'POST',
+                body: formData
+            });
 
-    const formData = new FormData();
-    formData.append('file', image);
-    formData.append('upload_preset', uploadPreset);
+            if (!response.ok) {
+                throw new Error('Error al subir la imagen');
+            }
 
-    try {
-        const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
-            method: 'POST',
-            body: formData
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-            const imageUrl = data.secure_url;
-
-            console.log('Imagen subida exitosamente:', imageUrl);
-
-            const post = {
-                title: title,
-                description: description,
-                imageUrl: imageUrl,
-            };
-
-            localStorage.setItem('posts', JSON.stringify(post));
+            const result = await response.json();
+            console.log('Imagen subida con éxito:', result);
             
-            alert('Hito Histórico publicado exitosamente.');
-            window.location.href = 'feed.html';
-        } else {
-            console.error('Error al subir la imagen:', data.error.message);
-            alert(`Error al subir la imagen: ${data.error.message}`);
+            // Aquí puedes añadir el resultado al feed, por ejemplo:
+            // displayImage(result.secure_url);
+
+        } catch (error) {
+            console.error('Error al subir la imagen:', error);
         }
-    } catch (error) {
-        console.error('Error en la petición:', error);
-    }
+    });
 });
-
-
-
