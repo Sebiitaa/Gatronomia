@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     const feedContainer = document.getElementById('feed');
 
-    // Recuperar los posts guardados (esto es un ejemplo, en un proyecto real lo sacarías de una base de datos)
-    fetch('https://api.cloudinary.com/v1_1/dqgzxa6uk/image/upload')  // Cambia esta URL por tu endpoint de API para obtener los posts
+    // Endpoint de tu API para obtener los posts
+    fetch('https://api.cloudinary.com/v1_1/dqgzxa6uk/image/upload')  // Cambia esta URL por la URL real de tu API
         .then(response => response.json())
         .then(posts => {
             if (Array.isArray(posts)) {
@@ -12,7 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     // Crear y añadir la imagen
                     const img = document.createElement('img');
-                    img.src = post.imageUrl;
+                    img.src = post.imageUrl;  // Asegúrate de que `post.imageUrl` contiene la URL correcta
+                    img.style.maxWidth = '100%';  // Ajusta el tamaño de la imagen
                     item.appendChild(img);
 
                     // Crear y añadir el título

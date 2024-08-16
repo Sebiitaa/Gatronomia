@@ -1,20 +1,20 @@
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('upload-form');
     const fileInput = document.getElementById('file-input');
-    const titleInput = document.getElementById('title');
-    const descriptionInput = document.getElementById('description');
-    const alert = document.getElementById('alert');
-    const uploadPreset = 'Imagenes';  // Nombre del upload preset que creaste
+    const titleInput = document.getElementById('title-input');
+    const descriptionInput = document.getElementById('description-input');
+    const feedback = document.getElementById('feedback');
 
     form.addEventListener('submit', async (event) => {
         event.preventDefault();
-        
-        const file = fileInput.files[0];
-        const title = titleInput.value;
-        const description = descriptionInput.value;
+
+        const file = fileInput ? fileInput.files[0] : null;
+        const title = titleInput ? titleInput.value : '';
+        const description = descriptionInput ? descriptionInput.value : '';
+        const uploadPreset = 'Imagenes';  // Nombre del upload preset que creaste
 
         if (!file) {
-            alert.textContent = 'Por favor, selecciona un archivo.';
+            feedback.textContent = 'Por favor, selecciona una imagen para subir.';
             return;
         }
 
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
         formData.append('upload_preset', uploadPreset);
 
         try {
-            const response = await fetch('https://api.cloudinary.com/v1_1/dqgzxa6uk/image/upload', {
+            const response = await fetch(`https://api.cloudinary.com/v1_1/dqgzxa6uk/image/upload`, {
                 method: 'POST',
                 body: formData
             });
@@ -33,24 +33,20 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const result = await response.json();
-            const imageUrl = result.secure_url;
+            console.log('Imagen subida con éxito:', result);
 
-            // Guardar en localStorage o en una base de datos (ejemplo con localStorage)
-            const posts = JSON.parse(localStorage.getItem('posts')) || [];
-            posts.push({ title, description, imageUrl });
-            localStorage.setItem('posts', JSON.stringify(posts));
+            // Procesar el resultado
+            feedback.textContent = 'Imagen subida con éxito.';
+            feedback.style.color = 'green';
 
-            alert.textContent = 'Imagen subida con éxito';
-            titleInput.value = '';
-            descriptionInput.value = '';
-            fileInput.value = '';
-
-            // Opcionalmente, redirigir al feed
-            // window.location.href = 'feed.html';
+            // Aquí puedes añadir el resultado a una base de datos o similar
+            // const post = { imageUrl: result.secure_url, title, description };
+            // Agregar a tu base de datos o mostrar en la interfaz
 
         } catch (error) {
             console.error('Error al subir la imagen:', error);
-            alert.textContent = 'Error al subir la imagen';
+            feedback.textContent = 'Error al subir la imagen.';
+            feedback.style.color = 'red';
         }
     });
 });
