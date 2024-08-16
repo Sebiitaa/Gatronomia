@@ -1,6 +1,5 @@
-// Reemplaza 'tu_cloud_name' por tu Cloud Name real y 'Imagenes' por el nombre del upload preset
-const cloudName = 'dqgzxa6uk';
-const uploadPreset = 'Imagenes';
+const cloudName = 'dqgzxa6uk'; // Asegúrate de que este es tu Cloud Name real
+const uploadPreset = 'imagenes'; // Asegúrate de que este es el nombre correcto de tu upload preset
 
 document.getElementById('post-form').addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -29,23 +28,21 @@ document.getElementById('post-form').addEventListener('submit', async (event) =>
         if (response.ok) {
             const imageUrl = data.secure_url;
 
-            // Aquí puedes hacer lo que quieras con la URL, como guardarla en una base de datos
             console.log('Imagen subida exitosamente:', imageUrl);
 
-            // Simular guardado en un arreglo (puedes hacerlo en un backend o base de datos)
             const post = {
                 title: title,
                 description: description,
                 imageUrl: imageUrl,
             };
 
-            // Guardar la URL de la imagen en tu estructura de datos (esto es un ejemplo)
             localStorage.setItem('posts', JSON.stringify(post));
             
             alert('Hito Histórico publicado exitosamente.');
             window.location.href = 'feed.html';
         } else {
-            console.error('Error al subir la imagen:', data);
+            console.error('Error al subir la imagen:', data.error.message);
+            alert(`Error al subir la imagen: ${data.error.message}`);
         }
     } catch (error) {
         console.error('Error en la petición:', error);
