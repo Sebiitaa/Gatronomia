@@ -1,10 +1,16 @@
 /* feed.css */
 
-body {
-    font-family: Arial, sans-serif;
+html, body {
+    height: 100%;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4; /* Color de fondo general */
+    font-family: Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Asegura que el body ocupe al menos el alto de la ventana */
 }
 
 header {
@@ -33,6 +39,7 @@ nav ul li a {
 }
 
 #feed {
+    flex: 1;
     max-width: 800px;
     margin: 2rem auto;
     padding: 1rem;
@@ -68,8 +75,7 @@ footer {
     padding: 1rem;
     background-color: rgba(0, 0, 0, 0.7);
     color: #fff;
-    position: absolute;
-    bottom: 0;
+    position: relative;
     width: 100%;
+    margin-top: auto; /* Asegura que el pie de página se mantenga en la parte inferior */
 }
-
