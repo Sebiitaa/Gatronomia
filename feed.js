@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const fetchPosts = async () => {
         try {
-            const response = await fetch('https://api.cloudinary.com/v1_1/dqgzxa6uk/resources/image');
+            const response = await fetch('/api/cloudinary/resources'); // Asegúrate de que este endpoint esté configurado en tu backend
             if (!response.ok) {
                 throw new Error('Error al obtener los posts');
             }
@@ -31,6 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Crear y añadir la imagen
                 const img = document.createElement('img');
                 img.src = post.secure_url;
+                img.alt = post.title || 'Imagen'; // Asegúrate de agregar un atributo alt para accesibilidad
                 item.appendChild(img);
 
                 // Crear y añadir el título
@@ -64,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const deletePost = async (publicId) => {
         try {
-            const response = await fetch(`https://api.cloudinary.com/v1_1/dqgzxa6uk/image/destroy`, {
+            const response = await fetch('/api/cloudinary/delete', { // Asegúrate de que este endpoint esté configurado en tu backend
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
@@ -89,8 +90,8 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const generateSignature = (apiSecret, publicId) => {
-        // Función para generar la firma para la eliminación de imágenes
-        const signatureString = `public_id=${publicId}&api_key=115171596876627&timestamp=${Math.floor(Date.now() / 1000)}${apiSecret}`;
+        const timestamp = Math.floor(Date.now() / 1000);
+        const signatureString = `public_id=${publicId}&api_key=YOUR_API_KEY&timestamp=${timestamp}${apiSecret}`;
         return CryptoJS.SHA1(signatureString).toString(CryptoJS.enc.Hex);
     };
 

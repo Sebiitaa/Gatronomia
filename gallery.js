@@ -1,11 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('upload-form');
     const fileInput = document.getElementById('file-input');
-    const titleInput = document.getElementById('title-input'); // Asegúrate de que este ID exista en el HTML
-    const descriptionInput = document.getElementById('description-input'); // Asegúrate de que este ID exista en el HTML
+    const titleInput = document.getElementById('title-input');
+    const descriptionInput = document.getElementById('description-input');
+    const notification = document.getElementById('notification');
 
-    if (!form || !fileInput || !titleInput || !descriptionInput) {
-        console.error('Formulario o campos de entrada no encontrados.');
+    if (!form || !fileInput || !titleInput || !descriptionInput || !notification) {
+        console.error('Elementos del formulario no encontrados.');
         return;
     }
 
@@ -18,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const uploadPreset = 'Imagenes';  // Nombre del upload preset que creaste
 
         if (!file) {
-            console.error('No se seleccionó ningún archivo.');
+            notification.textContent = 'Por favor, selecciona un archivo.';
             return;
         }
 
@@ -38,29 +39,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const result = await response.json();
             console.log('Imagen subida con éxito:', result);
-
-            // Guardar información en el feed
-            const post = {
-                title: title,
-                description: description,
-                imageUrl: result.secure_url
-            };
-            savePost(post);
+            notification.textContent = 'Imagen subida con éxito';
             
-            // Mensaje de éxito
-            alert('Imagen subida y guardada exitosamente.');
+            // Aquí puedes añadir el resultado al feed, por ejemplo:
+            // displayImage(result.secure_url, title, description);
 
         } catch (error) {
             console.error('Error al subir la imagen:', error);
+            notification.textContent = 'Error al subir la imagen';
         }
     });
-
-    function savePost(post) {
-        let posts = JSON.parse(localStorage.getItem('posts')) || [];
-        posts.push(post);
-        localStorage.setItem('posts', JSON.stringify(posts));
-    }
 });
+
 
 
 
