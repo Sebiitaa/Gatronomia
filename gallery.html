@@ -8,31 +8,16 @@
 </head>
 <body>
     <header>
-        <h1>Publicar Nuevo Hito Histórico</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="feed.html">Ver Feed</a></li>
-            </ul>
-        </nav>
+        <h1>Publicar Hito Histórico</h1>
     </header>
 
     <main>
-        <form id="post-form">
-            <input type="text" id="title" placeholder="Título">
-            <textarea id="description" placeholder="Descripción"></textarea>
-            <input type="file" id="image">
-            <button type="submit">Publicar</button>
+        <form id="upload-form">
+            <input type="file" id="file-input" name="file" accept="image/*" required>
+            <button type="submit">Subir Imagen</button>
         </form>
-        
     </main>
 
-    <footer>
-        <p>&copy; 2024 Tu Portafolio</p>
-    </footer>
-
-    <!-- Cargar Supabase desde CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0/dist/supabase.min.js"></script>
     <script src="gallery.js" type="module"></script>
 </body>
 </html>
