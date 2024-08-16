@@ -1,26 +1,16 @@
+/* Estilos generales */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background: url('fondogaleria.jpg') no-repeat center center fixed;
-    background-size: cover;
-    color: #333;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+    background-color: #f4f4f4;
 }
 
 header {
-    background-color: rgba(52, 152, 219, 0.8);
+    background-color: #0077b5; /* Azul de LinkedIn */
     color: white;
-    padding: 15px;
+    padding: 10px;
     text-align: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    position: fixed;
-    width: 100%;
-    top: 0;
-    left: 0;
-    z-index: 1000;
 }
 
 header h1 {
@@ -31,12 +21,12 @@ header h1 {
 nav ul {
     list-style: none;
     padding: 0;
-    margin: 15px 0;
+    display: flex;
+    justify-content: center;
 }
 
 nav ul li {
-    display: inline;
-    margin: 0 10px;
+    margin: 0 15px;
 }
 
 nav ul li a {
@@ -45,55 +35,51 @@ nav ul li a {
     font-weight: bold;
 }
 
-nav ul li a:hover {
-    text-decoration: underline;
+main {
+    padding: 20px;
 }
 
-main#feed {
-    flex: 1;
-    padding: 20px;
-    margin: 80px auto 20px auto; /* Margen superior ajustado para evitar que el contenido quede debajo del header */
-    max-width: 800px;
-    box-sizing: border-box;
+/* Estilos para los elementos del feed */
+#feed {
     display: flex;
     flex-direction: column;
-    gap: 20px; /* Espacio entre publicaciones */
+    gap: 20px;
 }
 
 .item {
-    background-color: rgba(255, 255, 255, 0.9);
-    border: 1px solid #ddd;
+    background-color: white;
+    padding: 15px;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    padding: 10px;
-    max-width: 100%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .item img {
     width: 100%;
     height: auto;
-    display: block;
+    max-height: 300px; /* Limita la altura máxima */
+    object-fit: cover;
+    border-radius: 8px;
 }
 
-.item .title {
+.title {
     font-size: 18px;
     font-weight: bold;
     margin-top: 10px;
+    color: #333;
 }
 
-.item .description {
-    margin-top: 5px;
+.description {
     font-size: 14px;
+    color: #666;
+    margin-top: 5px;
 }
 
 footer {
-    background-color: rgba(52, 152, 219, 0.8);
+    background-color: #0077b5;
     color: white;
     text-align: center;
     padding: 10px;
-    width: 100%;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-    position: relative;
+    position: fixed;
     bottom: 0;
+    width: 100%;
 }
