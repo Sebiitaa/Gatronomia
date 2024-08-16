@@ -12,8 +12,8 @@
         <nav>
             <ul>
                 <li><a href="index.html">Inicio</a></li>
-                <li><a href="feed.html">Feed de Hitos Históricos</a></li>
                 <li><a href="gallery.html">Publicar Hito Histórico</a></li>
+                <li><a href="feed.html">Feed de Hitos</a></li>
                 <li><a href="about.html">Sobre Nosotros</a></li>
             </ul>
         </nav>
@@ -21,11 +21,11 @@
 
     <main>
         <form id="upload-form">
-            <input type="text" id="title-input" placeholder="Título" required>
             <input type="file" id="file-input" accept="image/*" required>
-            <textarea id="description-input" placeholder="Descripción" rows="4"></textarea>
+            <input type="text" id="title" placeholder="Título" required>
+            <textarea id="description" placeholder="Descripción" required></textarea>
             <button type="submit">Publicar</button>
-            <p id="feedback"></p> <!-- Mensaje de feedback -->
+            <div id="alert" class="alert"></div>
         </form>
     </main>
 
@@ -33,7 +33,9 @@
         <p>&copy; 2024 Tu Portafolio</p>
     </footer>
 
+    <!-- Cargar Cloudinary desde CDN -->
     <script src="gallery.js" type="module"></script>
 </body>
 </html>
+
 

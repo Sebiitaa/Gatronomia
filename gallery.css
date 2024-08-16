@@ -1,57 +1,92 @@
+/* gallery.css */
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    background-image: url('fondogaleria.jpg'); /* Imagen de fondo */
+    background-size: cover;
+    background-position: center;
+    background-color: #f4f4f4; /* Color de fondo por si la imagen no carga */
 }
 
 header {
-    background-color: #00aaff;
+    background-color: rgba(0, 0, 0, 0.7); /* Fondo semi-transparente para contraste */
     color: #fff;
-    padding: 1em;
+    padding: 1rem 0;
     text-align: center;
 }
 
-header nav ul {
+nav ul {
     list-style-type: none;
+    margin: 0;
     padding: 0;
+    display: flex;
+    justify-content: center;
 }
 
-header nav ul li {
-    display: inline;
+nav ul li {
     margin: 0 15px;
 }
 
-header nav ul li a {
+nav ul li a {
     color: #fff;
     text-decoration: none;
-}
-
-main {
-    background-image: url('fondogaleria.jpg'); /* Asegúrate de que esta imagen esté en la ruta correcta */
-    background-size: cover;
-    padding: 20px;
+    font-weight: bold;
 }
 
 #upload-form {
-    background-color: rgba(255, 255, 255, 0.8); /* Fondo transparente */
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco con transparencia */
     border-radius: 8px;
-    max-width: 500px;
-    margin: 20px auto;
-    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-form input, form button {
-    display: block;
+#upload-form input,
+#upload-form button {
+    margin-top: 1rem;
     width: 100%;
-    margin: 10px 0;
+}
+
+input[type="file"] {
+    margin-bottom: 1rem;
+}
+
+button {
+    padding: 0.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button[type="submit"] {
+    background-color: #3498db;
+    color: #fff;
+}
+
+button[type="submit"]:hover {
+    background-color: #2980b9;
+}
+
+.alert {
+    color: #e74c3c;
+    margin-top: 1rem;
+    text-align: center;
 }
 
 footer {
-    background-color: #00aaff;
-    color: #fff;
-    padding: 10px;
     text-align: center;
-    position: fixed;
+    padding: 1rem;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    position: absolute;
     bottom: 0;
     width: 100%;
+}
+
 }

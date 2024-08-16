@@ -1,99 +1,65 @@
-document.addEventListener('DOMContentLoaded', () => {
+// feed.js
+
+document.addEventListener('DOMContentLoaded', async () => {
     const feedContainer = document.getElementById('feed');
 
-    if (!feedContainer) {
-        console.error('Contenedor del feed no encontrado.');
-        return;
-    }
+    // Recuperar los posts desde Cloudinary (o tu base de datos)
+    try {
+        const response = await fetch('https://api.cloudinary.com/v1_1/dqgzxa6uk/resources/image');
+        const data = await response.json();
+        
+        data.resources.forEach(post => {
+            const item = document.createElement('div');
+            item.classList.add('item');
 
-    const fetchPosts = async () => {
-        try {
-            const response = await fetch('/api/cloudinary/resources'); // Asegúrate de que este endpoint esté configurado en tu backend
-            if (!response.ok) {
-                throw new Error('Error al obtener los posts');
-            }
-            const data = await response.json();
-            return data.resources || [];
-        } catch (error) {
-            console.error('Error al obtener los posts:', error);
-            return [];
-        }
-    };
+            // Crear y añadir la imagen
+            const img = document.createElement('img');
+            img.src = post.secure_url;
+            item.appendChild(img);
 
-    const displayPosts = async () => {
-        const posts = await fetchPosts();
+            // Crear y añadir el título
+            const titleElement = document.createElement('div');
+            titleElement.classList.add('title');
+            titleElement.textContent = post.public_id; // Asegúrate de ajustar según tu esquema
+            item.appendChild(titleElement);
 
-        if (Array.isArray(posts)) {
-            posts.forEach(post => {
-                const item = document.createElement('div');
-                item.classList.add('item');
+            // Crear y añadir la descripción
+            const descriptionElement = document.createElement('div');
+            descriptionElement.classList.add('description');
+            descriptionElement.textContent = post.context?.custom?.description || 'No description';
+            item.appendChild(descriptionElement);
 
-                // Crear y añadir la imagen
-                const img = document.createElement('img');
-                img.src = post.secure_url;
-                img.alt = post.title || 'Imagen'; // Asegúrate de agregar un atributo alt para accesibilidad
-                item.appendChild(img);
+            // Añadir el botón de eliminar
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Eliminar';
+            deleteButton.classList.add('delete-button');
+            deleteButton.addEventListener('click', async () => {
+                try {
+                    const deleteResponse = await fetch(`https://api.cloudinary.com/v1_1/dqgzxa6uk/image/destroy`, {
+                        method: 'POST',
+                        body: JSON.stringify({ public_id: post.public_id }),
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Basic ' + btoa('your_api_key:your_api_secret')
+                        }
+                    });
 
-                // Crear y añadir el título
-                const titleElement = document.createElement('div');
-                titleElement.classList.add('title');
-                titleElement.textContent = post.title || 'Sin título';
-                item.appendChild(titleElement);
+                    if (!deleteResponse.ok) {
+                        throw new Error('Error al eliminar la imagen');
+                    }
 
-                // Crear y añadir la descripción
-                const descriptionElement = document.createElement('div');
-                descriptionElement.classList.add('description');
-                descriptionElement.textContent = post.description || 'Sin descripción';
-                item.appendChild(descriptionElement);
-
-                // Crear y añadir el botón de eliminar
-                const deleteButton = document.createElement('button');
-                deleteButton.textContent = 'Eliminar';
-                deleteButton.addEventListener('click', () => {
-                    deletePost(post.public_id);
+                    // Actualiza la vista después de eliminar
                     item.remove();
-                });
-                item.appendChild(deleteButton);
-
-                // Añadir el item al contenedor del feed
-                feedContainer.appendChild(item);
+                } catch (error) {
+                    console.error('Error al eliminar la imagen:', error);
+                }
             });
-        } else {
-            console.error('La respuesta de la API no es un array.');
-        }
-    };
+            item.appendChild(deleteButton);
 
-    const deletePost = async (publicId) => {
-        try {
-            const response = await fetch('/api/cloudinary/delete', { // Asegúrate de que este endpoint esté configurado en tu backend
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: new URLSearchParams({
-                    public_id: publicId,
-                    api_key: '115171596876627',
-                    timestamp: Math.floor(Date.now() / 1000),
-                    signature: generateSignature('QKG7iknbqpdABo9voM_1a1EZ_zk', publicId),
-                }),
-            });
-
-            if (!response.ok) {
-                throw new Error('Error al eliminar la imagen');
-            }
-
-            const result = await response.json();
-            console.log('Imagen eliminada:', result);
-        } catch (error) {
-            console.error('Error al eliminar la imagen:', error);
-        }
-    };
-
-    const generateSignature = (apiSecret, publicId) => {
-        const timestamp = Math.floor(Date.now() / 1000);
-        const signatureString = `public_id=${publicId}&api_key=YOUR_API_KEY&timestamp=${timestamp}${apiSecret}`;
-        return CryptoJS.SHA1(signatureString).toString(CryptoJS.enc.Hex);
-    };
-
-    displayPosts();
+            // Añadir el item al contenedor del feed
+            feedContainer.appendChild(item);
+        });
+    } catch (error) {
+        console.error('Error al recuperar las imágenes:', error);
+    }
 });
