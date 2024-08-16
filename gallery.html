@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hitos Históricos</title>
+    <title>Publicar Hito Histórico</title>
     <link rel="stylesheet" href="gallery.css">
 </head>
 <body>
@@ -12,7 +12,7 @@
         <nav>
             <ul>
                 <li><a href="index.html">Inicio</a></li>
-                <li><a href="gallery.html">Hitos Históricos</a></li>
+                <li><a href="gallery.html">Publicar Hito Histórico</a></li>
                 <li><a href="feed.html">Feed de Hitos</a></li>
                 <li><a href="about.html">Sobre Nosotros</a></li>
             </ul>
@@ -21,24 +21,19 @@
 
     <main>
         <form id="upload-form">
-            <label for="title">Título:</label>
-            <input type="text" id="title" name="title" required>
-
-            <label for="description">Descripción:</label>
-            <textarea id="description" name="description" required></textarea>
-
-            <label for="file-input">Seleccionar imagen:</label>
-            <input type="file" id="file-input" name="file-input" accept="image/*" required>
-
-            <button type="submit">Subir Hito</button>
+            <input type="file" id="file-input" accept="image/*" required>
+            <input type="text" id="title" placeholder="Título" required>
+            <textarea id="description" placeholder="Descripción" required></textarea>
+            <button type="submit">Publicar</button>
+            <div id="alert" class="alert"></div>
         </form>
-        <div id="notification"></div> <!-- Notificación de subida -->
     </main>
 
     <footer>
         <p>&copy; 2024 Tu Portafolio</p>
     </footer>
 
+    <!-- Cargar Cloudinary desde CDN -->
     <script src="gallery.js" type="module"></script>
 </body>
 </html>

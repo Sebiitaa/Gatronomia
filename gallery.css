@@ -1,24 +1,28 @@
+/* gallery.css */
+
 body {
-    background-color: #f0f0f0;
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    background-image: url('fondogaleria.jpg'); /* Añadir la imagen de fondo aquí */
+    background-size: cover;
+    background-position: center;
+    background-color: #f4f4f4; /* Color de fondo por si la imagen no carga */
 }
 
 header {
-    background-color: #333;
-    color: white;
-    padding: 15px;
+    background-color: rgba(0, 0, 0, 0.7); /* Fondo semi-transparente para contraste */
+    color: #fff;
+    padding: 1rem 0;
     text-align: center;
 }
 
 nav ul {
     list-style-type: none;
-    padding: 0;
     margin: 0;
+    padding: 0;
     display: flex;
     justify-content: center;
-    background-color: #444;
 }
 
 nav ul li {
@@ -26,53 +30,48 @@ nav ul li {
 }
 
 nav ul li a {
-    color: white;
+    color: #fff;
     text-decoration: none;
+    font-weight: bold;
 }
 
-form {
-    margin-top: 100px;
-    padding: 20px;
-    background-color: rgba(255, 255, 255, 0.8);
-    border-radius: 10px;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+#upload-form {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 1rem;
+    background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco con transparencia */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-form label {
-    display: block;
-    margin-bottom: 5px;
-}
-
-form input[type="text"],
-form textarea,
-form input[type="file"] {
+#upload-form input,
+#upload-form button {
+    margin-top: 1rem;
     width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
 }
 
-form button {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    background-color: #333;
-    color: white;
+input[type="file"] {
+    margin-bottom: 1rem;
+}
+
+button {
+    padding: 0.5rem;
     border: none;
-    border-radius: 5px;
+    border-radius: 4px;
     cursor: pointer;
 }
 
-form button:hover {
-    background-color: #555;
+button[type="submit"] {
+    background-color: #3498db;
+    color: #fff;
 }
 
-#notification {
+button[type="submit"]:hover {
+    background-color: #2980b9;
+}
+
+.alert {
+    color: #e74c3c;
+    margin-top: 1rem;
     text-align: center;
-    margin-top: 20px;
-    color: green;
 }

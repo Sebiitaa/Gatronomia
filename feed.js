@@ -1,76 +1,49 @@
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', () => {
     const feedContainer = document.getElementById('feed');
-    const cloudinaryURL = 'https://res.cloudinary.com/dqgzxa6uk/image/upload/'; // Reemplaza YOUR_CLOUD_NAME con tu nombre de nube en Cloudinary
-    const cloudinaryPreset = 'Imagenes'; // Reemplaza esto con el nombre de tu preset en Cloudinary
 
-    // Aquí deberías cargar las URLs de las imágenes y sus metadatos (títulos y descripciones)
-    const posts = [
-        // Aquí puedes agregar los objetos que representen tus imágenes subidas
-        {
-            id: 'image1',
-            title: 'Título 1',
-            description: 'Descripción 1',
-            imageUrl: `${cloudinaryURL}ruta_de_tu_imagen_1`
-        },
-        {
-            id: 'image2',
-            title: 'Título 2',
-            description: 'Descripción 2',
-            imageUrl: `${cloudinaryURL}ruta_de_tu_imagen_2`
-        }
-    ];
+    // Recuperar los posts guardados (esto es un ejemplo, en un proyecto real lo sacarías de una base de datos)
+    const posts = JSON.parse(localStorage.getItem('posts'));
 
-    // Renderizar el feed
-    posts.forEach(post => {
-        const item = document.createElement('div');
-        item.classList.add('item');
+    if (posts && Array.isArray(posts)) {
+        posts.forEach(post => {
+            const item = document.createElement('div');
+            item.classList.add('item');
 
-        const img = document.createElement('img');
-        img.src = post.imageUrl;
+            // Crear y añadir la imagen
+            const img = document.createElement('img');
+            img.src = post.imageUrl;
+            item.appendChild(img);
 
-        const title = document.createElement('div');
-        title.classList.add('title');
-        title.textContent = post.title;
+            // Crear y añadir el título
+            const titleElement = document.createElement('div');
+            titleElement.classList.add('title');
+            titleElement.textContent = post.title;
+            item.appendChild(titleElement);
 
-        const description = document.createElement('div');
-        description.classList.add('description');
-        description.textContent = post.description;
+            // Crear y añadir la descripción
+            const descriptionElement = document.createElement('div');
+            descriptionElement.classList.add('description');
+            descriptionElement.textContent = post.description;
+            item.appendChild(descriptionElement);
 
-        const deleteButton = document.createElement('button');
-        deleteButton.classList.add('delete-button');
-        deleteButton.textContent = 'Eliminar';
+            // Crear y añadir el botón de eliminar
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Eliminar';
+            deleteButton.classList.add('delete-button');
+            deleteButton.addEventListener('click', () => {
+                // Eliminar el post del localStorage
+                const updatedPosts = posts.filter(p => p.imageUrl !== post.imageUrl);
+                localStorage.setItem('posts', JSON.stringify(updatedPosts));
 
-        deleteButton.addEventListener('click', async () => {
-            try {
-                // Aquí puedes integrar la funcionalidad para eliminar la imagen de Cloudinary usando su API
-                const response = await fetch(`https://api.cloudinary.com/v1_1/dqgzxa6uk/image/destroy`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        public_id: post.id, // Usamos el id de la imagen
-                        upload_preset: cloudinaryPreset
-                    })
-                });
+                // Eliminar el item del DOM
+                item.remove();
+            });
+            item.appendChild(deleteButton);
 
-                if (!response.ok) {
-                    throw new Error('Error al eliminar la imagen');
-                }
-
-                // Eliminar el elemento del feed después de eliminar la imagen
-                feedContainer.removeChild(item);
-            } catch (err) {
-                console.error('Error al eliminar el post:', err);
-            }
+            // Añadir el item al contenedor del feed
+            feedContainer.appendChild(item);
         });
-
-        item.appendChild(img);
-        item.appendChild(title);
-        item.appendChild(description);
-        item.appendChild(deleteButton);
-
-        feedContainer.appendChild(item);
-    });
+    }
 });
+
 
