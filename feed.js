@@ -1,8 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
     const feedContainer = document.getElementById('feed');
 
-    // Recuperar los posts guardados del localStorage
-    const posts = JSON.parse(localStorage.getItem('posts')) || []; // Asegúrate de que sea un array
+    // Recuperar los posts guardados
+    let posts = JSON.parse(localStorage.getItem('posts'));
+
+    // Asegurarse de que 'posts' es un array
+    if (!Array.isArray(posts)) {
+        posts = []; // Inicializar como un array vacío si no lo es
+    }
 
     posts.forEach(post => {
         const item = document.createElement('div');
@@ -11,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Crear y añadir la imagen
         const img = document.createElement('img');
         img.src = post.imageUrl;
-        img.alt = post.title; // Texto alternativo para la imagen
+        img.alt = post.title;
         item.appendChild(img);
 
         // Crear y añadir el título
@@ -26,35 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
         descriptionElement.textContent = post.description;
         item.appendChild(descriptionElement);
 
-        // Crear y añadir el botón de eliminación
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = 'Eliminar';
-        deleteButton.onclick = () => deletePost(post.title); // Eliminar el post basado en su título o ID
-        item.appendChild(deleteButton);
-
         // Añadir el item al contenedor del feed
         feedContainer.appendChild(item);
     });
 });
-
-// Función para eliminar un post
-function deletePost(title) {
-    let posts = JSON.parse(localStorage.getItem('posts')) || [];
-
-    // Filtrar los posts para eliminar el seleccionado
-    posts = posts.filter(post => post.title !== title);
-
-    // Guardar los posts actualizados en localStorage
-    localStorage.setItem('posts', JSON.stringify(posts));
-
-    // Recargar el feed para reflejar los cambios
-    document.location.reload();
-}
-
-
-
-
-
-
-
-
