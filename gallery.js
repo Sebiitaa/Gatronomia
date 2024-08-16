@@ -1,20 +1,24 @@
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('upload-form');
     const fileInput = document.getElementById('file-input');
-    const titleInput = document.getElementById('title-input');
-    const descriptionInput = document.getElementById('description-input');
-    const feedback = document.getElementById('feedback');
+    const titleInput = document.getElementById('title-input'); // Asegúrate de que este ID exista en el HTML
+    const descriptionInput = document.getElementById('description-input'); // Asegúrate de que este ID exista en el HTML
+
+    if (!form || !fileInput || !titleInput || !descriptionInput) {
+        console.error('Formulario o campos de entrada no encontrados.');
+        return;
+    }
 
     form.addEventListener('submit', async (event) => {
         event.preventDefault();
-
-        const file = fileInput ? fileInput.files[0] : null;
-        const title = titleInput ? titleInput.value : '';
-        const description = descriptionInput ? descriptionInput.value : '';
+        
+        const file = fileInput.files[0];
+        const title = titleInput.value;
+        const description = descriptionInput.value;
         const uploadPreset = 'Imagenes';  // Nombre del upload preset que creaste
 
         if (!file) {
-            feedback.textContent = 'Por favor, selecciona una imagen para subir.';
+            console.error('No se seleccionó ningún archivo.');
             return;
         }
 
@@ -23,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
         formData.append('upload_preset', uploadPreset);
 
         try {
-            const response = await fetch(`https://api.cloudinary.com/v1_1/dqgzxa6uk/image/upload`, {
+            const response = await fetch('https://api.cloudinary.com/v1_1/dqgzxa6uk/image/upload', {
                 method: 'POST',
                 body: formData
             });
@@ -35,21 +39,29 @@ document.addEventListener('DOMContentLoaded', () => {
             const result = await response.json();
             console.log('Imagen subida con éxito:', result);
 
-            // Procesar el resultado
-            feedback.textContent = 'Imagen subida con éxito.';
-            feedback.style.color = 'green';
-
-            // Aquí puedes añadir el resultado a una base de datos o similar
-            // const post = { imageUrl: result.secure_url, title, description };
-            // Agregar a tu base de datos o mostrar en la interfaz
+            // Guardar información en el feed
+            const post = {
+                title: title,
+                description: description,
+                imageUrl: result.secure_url
+            };
+            savePost(post);
+            
+            // Mensaje de éxito
+            alert('Imagen subida y guardada exitosamente.');
 
         } catch (error) {
             console.error('Error al subir la imagen:', error);
-            feedback.textContent = 'Error al subir la imagen.';
-            feedback.style.color = 'red';
         }
     });
+
+    function savePost(post) {
+        let posts = JSON.parse(localStorage.getItem('posts')) || [];
+        posts.push(post);
+        localStorage.setItem('posts', JSON.stringify(posts));
+    }
 });
+
 
 
 

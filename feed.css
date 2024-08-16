@@ -1,81 +1,60 @@
-/* feed.css */
-html, body {
-    height: 100%;
+body {
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f0f8ff; /* Celeste claro para la interfaz */
-}
-
-body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh; /* Asegura que el body ocupe al menos el alto de la ventana */
 }
 
 header {
-    background-color: #87ceeb; /* Celeste claro */
+    background-color: #00aaff;
     color: #fff;
-    padding: 1rem 0;
+    padding: 1em;
     text-align: center;
 }
 
-nav ul {
+header nav ul {
     list-style-type: none;
-    margin: 0;
     padding: 0;
-    display: flex;
-    justify-content: center;
 }
 
-nav ul li {
+header nav ul li {
+    display: inline;
     margin: 0 15px;
 }
 
-nav ul li a {
+header nav ul li a {
     color: #fff;
     text-decoration: none;
-    font-weight: bold;
 }
 
-main {
-    padding: 2rem;
-    flex: 1;
+#feed {
+    padding: 20px;
 }
 
 .item {
     border: 1px solid #ddd;
     border-radius: 8px;
+    margin-bottom: 20px;
     overflow: hidden;
-    margin-bottom: 1rem;
-    padding: 1rem;
     background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .item img {
     width: 100%;
-    height: auto; /* Mantener la proporción original de la imagen */
-    display: block;
+    height: auto;
+    max-height: 300px; /* Ajusta el tamaño de la imagen para que sea más acorde al diseño del feed */
+    object-fit: cover;
 }
 
-.item .title {
-    font-size: 1.2rem;
-    margin-top: 0.5rem;
-}
-
-.item .description {
-    font-size: 1rem;
-    margin-top: 0.5rem;
+.item .title, .item .description {
+    padding: 10px;
 }
 
 footer {
-    text-align: center;
-    padding: 1rem;
-    background-color: #87ceeb; /* Celeste claro */
+    background-color: #00aaff;
     color: #fff;
-    position: relative;
+    padding: 10px;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
     width: 100%;
-    margin-top: auto; /* Asegura que el pie de página se mantenga en la parte inferior */
 }
-
