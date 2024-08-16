@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const fileInput = document.getElementById('file-input');
     const titleInput = document.getElementById('title-input');
     const descriptionInput = document.getElementById('description-input');
+    const notification = document.getElementById('notification');
 
     form.addEventListener('submit', async (event) => {
         event.preventDefault();
@@ -10,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const file = fileInput.files[0];
         const title = titleInput.value;
         const description = descriptionInput.value;
-        const uploadPreset = 'Imagenes';  // Nombre del upload preset
+        const uploadPreset = 'Imagenes';  // Nombre del upload preset que creaste en Cloudinary
 
         const formData = new FormData();
         formData.append('file', file);
@@ -35,16 +36,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 description: description
             };
 
-            // Guardar los datos del post en localStorage (para prueba)
+            // Guardar los datos del post en localStorage
             let posts = JSON.parse(localStorage.getItem('posts')) || [];
             posts.push(postData);
             localStorage.setItem('posts', JSON.stringify(posts));
 
-            // Redirigir al feed después de publicar
-            window.location.href = 'feed.html';
+            // Notificación de éxito
+            notification.textContent = '¡Hito histórico publicado con éxito!';
+            notification.style.color = 'green';
+
+            // Limpiar el formulario
+            form.reset();
 
         } catch (error) {
             console.error('Error al subir la imagen:', error);
+            notification.textContent = 'Error al publicar el hito histórico.';
+            notification.style.color = 'red';
         }
     });
 });
+

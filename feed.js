@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const feedContainer = document.getElementById('feed');
 
-    // Recuperar los posts guardados
     let posts = JSON.parse(localStorage.getItem('posts')) || [];
 
     if (posts.length) {

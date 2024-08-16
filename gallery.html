@@ -9,16 +9,43 @@
 <body>
     <header>
         <h1>Publicar Hito Histórico</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="feed.html">Feed de Hitos Históricos</a></li>
+                <li><a href="about.html">Sobre Nosotros</a></li>
+                <li><a href="gallery.html">Publicar Hito Histórico</a></li>
+            </ul>
+        </nav>
     </header>
 
     <main>
         <form id="upload-form">
-            <input type="file" id="file-input" name="file" accept="image/*" required>
-            <button type="submit">Subir Imagen</button>
+            <div>
+                <label for="file-input">Selecciona una imagen:</label>
+                <input type="file" id="file-input" name="file" required>
+            </div>
+            <div>
+                <label for="title-input">Título:</label>
+                <input type="text" id="title-input" name="title" required>
+            </div>
+            <div>
+                <label for="description-input">Descripción:</label>
+                <textarea id="description-input" name="description" required></textarea>
+            </div>
+            <button type="submit">Publicar Hito</button>
         </form>
+        <div id="notification"></div>
     </main>
 
+    <footer>
+        <p>&copy; 2024 Tu Portafolio</p>
+    </footer>
+
+    <!-- Cargar Supabase desde CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.0.0/dist/supabase.min.js"></script>
     <script src="gallery.js" type="module"></script>
 </body>
-</html>
+</
+
 
