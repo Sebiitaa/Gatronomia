@@ -1,68 +1,40 @@
-// feed.js
-
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', () => {
     const feedContainer = document.getElementById('feed');
 
-    // Recuperar los posts desde Cloudinary (o tu base de datos)
-    try {
-        const response = await fetch('https://api.cloudinary.com/v1_1/dqgzxa6uk/resources/image');
-        const data = await response.json();
-        
-        data.resources.forEach(post => {
-            const item = document.createElement('div');
-            item.classList.add('item');
+    // Recuperar los posts guardados (esto es un ejemplo, en un proyecto real lo sacarías de una base de datos)
+    fetch('https://api.cloudinary.com/v1_1/dqgzxa6uk/image/upload')  // Cambia esta URL por tu endpoint de API para obtener los posts
+        .then(response => response.json())
+        .then(posts => {
+            if (Array.isArray(posts)) {
+                posts.forEach(post => {
+                    const item = document.createElement('div');
+                    item.classList.add('item');
 
-            // Crear y añadir la imagen
-            const img = document.createElement('img');
-            img.src = post.secure_url;
-            item.appendChild(img);
+                    // Crear y añadir la imagen
+                    const img = document.createElement('img');
+                    img.src = post.imageUrl;
+                    item.appendChild(img);
 
-            // Crear y añadir el título
-            const titleElement = document.createElement('div');
-            titleElement.classList.add('title');
-            titleElement.textContent = post.public_id; // Asegúrate de ajustar según tu esquema
-            item.appendChild(titleElement);
+                    // Crear y añadir el título
+                    const titleElement = document.createElement('div');
+                    titleElement.classList.add('title');
+                    titleElement.textContent = post.title;
+                    item.appendChild(titleElement);
 
-            // Crear y añadir la descripción
-            const descriptionElement = document.createElement('div');
-            descriptionElement.classList.add('description');
-            descriptionElement.textContent = post.context?.custom?.description || 'No description';
-            item.appendChild(descriptionElement);
+                    // Crear y añadir la descripción
+                    const descriptionElement = document.createElement('div');
+                    descriptionElement.classList.add('description');
+                    descriptionElement.textContent = post.description;
+                    item.appendChild(descriptionElement);
 
-            // Añadir el botón de eliminar
-            const deleteButton = document.createElement('button');
-            deleteButton.textContent = 'Eliminar';
-            deleteButton.classList.add('delete-button');
-            deleteButton.addEventListener('click', async () => {
-                try {
-                    const deleteResponse = await fetch(`https://api.cloudinary.com/v1_1/dqgzxa6uk/image/destroy`, {
-                        method: 'POST',
-                        body: JSON.stringify({ public_id: post.public_id }),
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': 'Basic ' + btoa('your_api_key:your_api_secret')
-                        }
-                    });
-
-                    if (!deleteResponse.ok) {
-                        throw new Error('Error al eliminar la imagen');
-                    }
-
-                    // Actualiza la vista después de eliminar
-                    item.remove();
-                } catch (error) {
-                    console.error('Error al eliminar la imagen:', error);
-                }
-            });
-            item.appendChild(deleteButton);
-
-            // Añadir el item al contenedor del feed
-            feedContainer.appendChild(item);
+                    // Añadir el item al contenedor del feed
+                    feedContainer.appendChild(item);
+                });
+            } else {
+                console.error('La respuesta de la API no es un array.');
+            }
+        })
+        .catch(error => {
+            console.error('Error al obtener los posts:', error);
         });
-    } catch (error) {
-        console.error('Error al recuperar las imágenes:', error);
-    }
 });
-
-
-

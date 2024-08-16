@@ -38,35 +38,34 @@ nav ul li a {
     font-weight: bold;
 }
 
-#feed {
+main {
+    padding: 2rem;
     flex: 1;
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: 1rem;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .item {
-    margin-bottom: 1.5rem;
-    border-bottom: 1px solid #ddd;
-    padding-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .item img {
     width: 100%;
-    max-width: 600px; /* Tamaño máximo adecuado para la imagen */
-    height: auto;
-    border-radius: 4px;
+    height: auto; /* Mantener la proporción original de la imagen */
+    display: block;
 }
 
-.title {
-    font-weight: bold;
+.item .title {
+    font-size: 1.2rem;
     margin-top: 0.5rem;
 }
 
-.description {
+.item .description {
+    font-size: 1rem;
     margin-top: 0.5rem;
 }
 
@@ -79,3 +78,4 @@ footer {
     width: 100%;
     margin-top: auto; /* Asegura que el pie de página se mantenga en la parte inferior */
 }
+
