@@ -1,11 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('upload-form');
     const fileInput = document.getElementById('file-input');
+    const titleInput = document.getElementById('title-input');
+    const descriptionInput = document.getElementById('description-input');
 
     form.addEventListener('submit', async (event) => {
         event.preventDefault();
         
         const file = fileInput.files[0];
+        const title = titleInput.value;
+        const description = descriptionInput.value;
         const uploadPreset = 'Imagenes';  // Nombre del upload preset
 
         const formData = new FormData();
@@ -25,19 +29,22 @@ document.addEventListener('DOMContentLoaded', () => {
             const result = await response.json();
             console.log('Imagen subida con éxito:', result);
 
-            // Aquí puedes guardar la URL de la imagen en tu feed
-            // Por ejemplo, podrías almacenar el resultado en localStorage o en una base de datos.
-            saveToFeed(result.secure_url);
+            const postData = {
+                imageUrl: result.secure_url,
+                title: title,
+                description: description
+            };
+
+            // Guardar los datos del post en localStorage (para prueba)
+            let posts = JSON.parse(localStorage.getItem('posts')) || [];
+            posts.push(postData);
+            localStorage.setItem('posts', JSON.stringify(posts));
+
+            // Redirigir al feed después de publicar
+            window.location.href = 'feed.html';
 
         } catch (error) {
             console.error('Error al subir la imagen:', error);
         }
     });
 });
-
-function saveToFeed(imageUrl) {
-    // Guardar la imagen en el feed (esto es un ejemplo básico)
-    const posts = JSON.parse(localStorage.getItem('posts')) || [];
-    posts.push({ imageUrl: imageUrl });
-    localStorage.setItem('posts', JSON.stringify(posts));
-}
