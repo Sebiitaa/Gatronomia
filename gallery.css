@@ -4,14 +4,11 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-image: url('fondogaleria.jpg'); /* Imagen de fondo */
-    background-size: cover;
-    background-position: center;
-    background-color: #f4f4f4; /* Color de fondo por si la imagen no carga */
+    background-color: #f4f4f4;
 }
 
 header {
-    background-color: rgba(0, 0, 0, 0.7); /* Fondo semi-transparente para contraste */
+    background-color: #333;
     color: #fff;
     padding: 1rem 0;
     text-align: center;
@@ -38,13 +35,10 @@ nav ul li a {
 #upload-form {
     max-width: 800px;
     margin: 2rem auto;
-    padding: 2rem;
+    padding: 1rem;
     background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco con transparencia */
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 
 #upload-form input,
@@ -77,16 +71,4 @@ button[type="submit"]:hover {
     color: #e74c3c;
     margin-top: 1rem;
     text-align: center;
-}
-
-footer {
-    text-align: center;
-    padding: 1rem;
-    background-color: rgba(0, 0, 0, 0.7);
-    color: #fff;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-}
-
 }
