@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const title = document.getElementById('title').value;
         const description = document.getElementById('description').value;
         const file = document.getElementById('file-input').files[0];
-        const uploadPreset = 'Imagenes'; // Cambia esto al nombre del upload preset que creaste
+        const uploadPreset = 'imagenes'; // Cambia esto al nombre del upload preset que creaste
 
         const formData = new FormData();
         formData.append('file', file);

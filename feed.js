@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const feedContainer = document.getElementById('feed');
-    const cloudinaryURL = 'https://res.cloudinary.com/YOUR_CLOUD_NAME/image/upload/'; // Reemplaza YOUR_CLOUD_NAME con tu nombre de nube en Cloudinary
+    const cloudinaryURL = 'https://res.cloudinary.com/dqgzxa6uk/image/upload/'; // Reemplaza YOUR_CLOUD_NAME con tu nombre de nube en Cloudinary
     const cloudinaryPreset = 'Imagenes'; // Reemplaza esto con el nombre de tu preset en Cloudinary
 
     // Aquí deberías cargar las URLs de las imágenes y sus metadatos (títulos y descripciones)
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         deleteButton.addEventListener('click', async () => {
             try {
                 // Aquí puedes integrar la funcionalidad para eliminar la imagen de Cloudinary usando su API
-                const response = await fetch(`https://api.cloudinary.com/v1_1/YOUR_CLOUD_NAME/image/destroy`, {
+                const response = await fetch(`https://api.cloudinary.com/v1_1/dqgzxa6uk/image/destroy`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
